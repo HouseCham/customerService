@@ -1,0 +1,92 @@
+syntax = "proto3";
+package customer;
+option go_package = "api/core/grpc/";
+
+message ValidationError {
+    string tag = 1;
+    string field = 2;
+    string err = 3;
+}
+
+/* ========== POST CUSTOMER ========== */
+// Request
+message InsertCustomerCommand {
+    uint32 id = 1;
+    string first_name = 2;
+    string second_name = 3;
+    string last_name_p = 4;
+    string last_name_m = 5;
+    string phone_number = 6;
+    string email = 7;
+    string password = 8;
+}
+// Response
+message InsertCustomerResponse {
+    bool has_error = 1;
+    string error_message = 2;
+    uint32 new_id = 3;
+    uint32 status_code = 4;
+    repeated ValidationError validation_errors = 5;
+}
+
+/* ========== GET CUSTOMER BY ID ========== */
+// Request
+message GetCustomerQuery {
+    uint32 id = 1;
+}
+// Response
+message GetCustomerResponse {
+    bool has_error = 1;
+    string error_message = 2;
+    uint32 id = 3;
+    string first_name = 4;
+    string second_name = 5;
+    string last_name_p = 6;
+    string last_name_m = 7;
+    string phone_number = 8;
+    string email = 9;
+    uint32 status_code = 10;
+}
+
+/* ========== UPDATE COSTUMER ========== */
+// Request
+message UpdateCustomerCommand {
+    uint32 id = 1;
+    string first_name = 2;
+    string second_name = 3;
+    string last_name_p = 4;
+    string last_name_m = 5;
+    string phone_number = 6;
+    string email = 7;
+}
+// Response
+message UpdateCustomerResponse {
+    bool has_error = 1;
+    string error_message = 2;
+    uint32 status_code = 3;
+    repeated ValidationError validation_errors = 4;
+}
+
+/* ========== DELETE CUSTOMER ========== */
+// Request
+message DeleteCustomerCommand {
+    uint32 id = 1;
+}
+// Response
+message DeleteCustomerResponse {
+    bool has_error = 1;
+    string error_message = 2;
+    uint32 status_code = 3;
+}
+
+/* ========== CUSTOMER SERVICE ========== */
+service Customer {
+    // Create a new customer
+    rpc InsertCustomer(InsertCustomerCommand) returns (InsertCustomerResponse);
+    // Get a customer by id
+    rpc GetCustomer(GetCustomerQuery) returns (GetCustomerResponse);
+    // Update a customer
+    rpc UpdateCustomer(UpdateCustomerCommand) returns (UpdateCustomerResponse);
+    // Delete a customer
+    rpc DeleteCustomer(DeleteCustomerCommand) returns (DeleteCustomerResponse);
+}

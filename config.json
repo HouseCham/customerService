@@ -1,0 +1,9 @@
+{
+    "database": {
+        "connectionString": ""
+    },
+    "app": {
+        "port": 0,
+        "host": ""
+    }
+}
