@@ -12,7 +12,7 @@ var ConfigFile model.Config
 // getConfigFile reads the config.json file and returns a Config struct
 func GetConfigFile() error {
 	v := viper.New()
-	v.SetConfigFile("config.json")
+	v.SetConfigFile("./../config.json")
 
 	// Read the config file
 	err := v.ReadInConfig()

@@ -2,47 +2,57 @@ package main
 
 import (
 	"fmt"
-	"log"
 	"net"
 
+	grpcService "github.com/HouseCham/microservice-template/api/core/grpc"
 	"github.com/HouseCham/microservice-template/internal/config"
+	"github.com/HouseCham/microservice-template/internal/log"
 	"github.com/HouseCham/microservice-template/internal/repository"
 	"github.com/HouseCham/microservice-template/internal/validator"
-    customerService "github.com/HouseCham/microservice-template/api/core/grpc"
 	"google.golang.org/grpc"
 )
 
 func main() {
+    // Setting up logger
+    log.SetUpLogger()
+
     // Setting up config file
+    log.Logger.Println("Setting up config file")
     err := config.GetConfigFile()
     if err != nil {
-        panic(err)
+        log.Logger.Panicf("Failed to get config file: %v", err)
     }
 
     // Setting up database connection
+    log.Logger.Println("Setting up database connection")
     err = repository.SetUpDBConnection()
     if err != nil {
-        panic(err)
+        log.Logger.Panicf("Failed to set up database connection: %v", err)
     }
 
     // Create a listener on the configured port
+    log.Logger.Printf("Starting gRPC listener on port %d", config.ConfigFile.App.Port)
     listener, err := net.Listen("tcp", fmt.Sprintf(":%d", config.ConfigFile.App.Port))
     if err != nil {
-        log.Fatalf("Failed to listen: %v", err)
+        log.Logger.Errorf("Failed to listen: %v", err)
+        panic(err)
     }
 
     // Create a new gRPC server
+    log.Logger.Println("Creating a new gRPC server")
     grpcServer := grpc.NewServer()
 
     // Register your gRPC service implementation with the server
-    customerService.RegisterCustomerServer(grpcServer, &customerService.CustomerGrpcServer{})
+    log.Logger.Println("Starting to implement gRPC service")
+    grpcService.RegisterCustomerServer(grpcServer, &grpcService.CustomerGrpcServer{})
 
     // Setting up custom validations
+    log.Logger.Println("Setting up custom validations")
     validator.SetUpValidations()
 
     // Start the gRPC server
-    log.Printf("gRPC server is running on port %d", config.ConfigFile.App.Port)
+    log.Logger.Printf("gRPC server is running on port %d", config.ConfigFile.App.Port)
     if err := grpcServer.Serve(listener); err != nil {
-        log.Fatalf("Failed to serve: %v", err)
+        log.Logger.Fatalf("Failed to serve: %v", err)
     }
 }
