@@ -3,8 +3,8 @@ package config
 import (
 	"fmt"
 
+	"github.com/HouseCham/customerService/internal/model"
 	"github.com/spf13/viper"
-	"github.com/HouseCham/microservice-template/internal/model"
 )
 
 var ConfigFile model.Config

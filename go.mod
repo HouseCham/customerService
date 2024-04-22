@@ -1,4 +1,4 @@
-module github.com/HouseCham/microservice-template
+module github.com/HouseCham/customerService
 
 go 1.21.6
 

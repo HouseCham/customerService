@@ -3,7 +3,7 @@ package validator
 import (
 	"fmt"
 
-	customerService "github.com/HouseCham/microservice-template/api/core/grpc"
+	customerService "github.com/HouseCham/customerService/api/core/grpc"
 	"github.com/go-playground/validator/v10"
 )
 

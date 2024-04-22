@@ -1,7 +1,7 @@
 package grpc
 
 import (
-	"github.com/HouseCham/microservice-template/internal/model"
+	"github.com/HouseCham/customerService/internal/model"
 )
 
 // Function to map InsertCustomerCommand to InsertCustomerModel

@@ -3,7 +3,7 @@ package repository
 import (
 	"fmt"
 
-	"github.com/HouseCham/microservice-template/internal/config"
+	"github.com/HouseCham/customerService/internal/config"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )

@@ -4,7 +4,7 @@ import (
 	"context"
 	"log"
 
-	"github.com/HouseCham/microservice-template/internal/handler"
+	"github.com/HouseCham/customerService/internal/handler"
 	"github.com/fatih/color"
 	codes "google.golang.org/grpc/codes"
 )

@@ -1,7 +1,7 @@
 package handler
 
 import (
-	"github.com/HouseCham/microservice-template/internal/model"
+	"github.com/HouseCham/customerService/internal/model"
 )
 
 // InsertCustomerHandler is a handler that receives a new customer and inserts it into the database
@@ -12,5 +12,5 @@ func InsertCustomerHandler(requestBody *model.InsertCustomerModel) (int, int, er
 	// 	return 0, statusCode, err
 	// }
 	// return newId, statusCode, nil
-	return 0, 0 , nil
+	return 0, 0, nil
 }
