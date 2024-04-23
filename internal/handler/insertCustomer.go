@@ -35,7 +35,7 @@ func InsertCustomerHandler(requestBody *model.Customer) model.HttpResponse {
         requestBody.HashedPassword = hashedPassword
 
         // Call the repository to insert the new customer
-        newId, err := repository.InsertNewCostumerDB(requestBody)
+        newId, err := repository.InsertNewCustomerDB(requestBody)
         if err != nil {
             resultCh <- handleErrorResponse("Error inserting customer", err, codes.Internal, nil)
             return

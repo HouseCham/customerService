@@ -6,100 +6,100 @@ import (
 	"gorm.io/gorm"
 )
 
-// InsertNewCostumerDB is a repository function to insert a new costumer in the DB
-func InsertNewCostumerDB(entry *model.Customer) (uint, error) {
-	log.Logger.Infoln("Repository function invoked -> InsertNewCostumerDB")
-	// goroutine for inserting new costumer in DB
+// InsertNewCustomerDB is a repository function to insert a new Customer in the DB
+func InsertNewCustomerDB(entry *model.Customer) (uint, error) {
+	log.Logger.Infoln("Repository function invoked -> InsertNewCustomerDB")
+	// goroutine for inserting new Customer in DB
 	dbChanResponse := make(chan *gorm.DB)
 	go func() {
 		dbChanResponse <- DBContext.Create(&entry)
 	}()
-	// checking if there was an error inserting new costumer in DB
+	// checking if there was an error inserting new Customer in DB
 	if dbResult := <-dbChanResponse; dbResult.Error != nil {
 		return 0, dbResult.Error
 	}
-	log.Logger.Infoln("Repository function finished -> InsertNewCostumerDB")
-	// returning the ID of the new costumer
+	log.Logger.Infoln("Repository function finished -> InsertNewCustomerDB")
+	// returning the ID of the new Customer
 	return entry.ID, nil
 }
-// UpdateCostumerDB is a repository function to update a costumer in the DB
-func UpdateCostumerDB(entry *model.Customer) error {
-	log.Logger.Infoln("Repository function invoked -> UpdateCostumerDB")
-	// goroutine for updating costumer in DB
+// UpdateCustomerDB is a repository function to update a Customer in the DB
+func UpdateCustomerDB(entry *model.Customer) error {
+	log.Logger.Infoln("Repository function invoked -> UpdateCustomerDB")
+	// goroutine for updating Customer in DB
 	dbChanResponse := make(chan *gorm.DB)
 	go func() {
 		dbChanResponse <- DBContext.Save(&entry)
 	}()
-	// checking if there was an error updating costumer in DB
+	// checking if there was an error updating Customer in DB
 	if dbResult := <-dbChanResponse; dbResult.Error != nil {
 		return dbResult.Error
 	}
-	log.Logger.Infoln("Repository function finished -> UpdateCostumerDB")
+	log.Logger.Infoln("Repository function finished -> UpdateCustomerDB")
 	return nil
 }
-// DeleteCostumerDB is a repository function to delete a costumer in the DB
-func DeleteCostumerDB(entry *model.Customer) error {
-	log.Logger.Infoln("Repository function invoked -> DeleteCostumerDB")
-	// goroutine for deleting costumer in DB
+// DeleteCustomerDB is a repository function to delete a Customer in the DB
+func DeleteCustomerDB(entry *model.Customer) error {
+	log.Logger.Infoln("Repository function invoked -> DeleteCustomerDB")
+	// goroutine for deleting Customer in DB
 	dbChanResponse := make(chan *gorm.DB)
 	go func() {
 		dbChanResponse <- DBContext.Delete(&entry)
 	}()
-	// checking if there was an error deleting costumer in DB
+	// checking if there was an error deleting Customer in DB
 	if dbResult := <-dbChanResponse; dbResult.Error != nil {
 		return dbResult.Error
 	}
-	log.Logger.Infoln("Repository function finished -> DeleteCostumerDB")
+	log.Logger.Infoln("Repository function finished -> DeleteCustomerDB")
 	return nil
 }
-// GetCostumerByID is a repository function to get a costumer by ID in the DB
-func GetCostumerByID(id uint) (*model.Customer, error) {
-	log.Logger.Infoln("Repository function invoked -> GetCostumerByID")
-	// creating a new costumer model
+// GetCustomerByID is a repository function to get a Customer by ID in the DB
+func GetCustomerByID(id uint) (*model.Customer, error) {
+	log.Logger.Infoln("Repository function invoked -> GetCustomerByID")
+	// creating a new Customer model
 	entry := &model.Customer{}
-	// goroutine for getting costumer by ID in DB
+	// goroutine for getting Customer by ID in DB
 	dbChanResponse := make(chan *gorm.DB)
 	go func() {
 		dbChanResponse <- DBContext.First(&entry, id)
 	}()
-	// checking if there was an error getting costumer by ID in DB
+	// checking if there was an error getting Customer by ID in DB
 	if dbResult := <-dbChanResponse; dbResult.Error != nil {
 		return nil, dbResult.Error
 	}
-	log.Logger.Infoln("Repository function finished -> GetCostumerByID")
+	log.Logger.Infoln("Repository function finished -> GetCustomerByID")
 	return entry, nil
 }
-// GetAllCostumers is a repository function to get all costumers in the DB
-func GetAllCostumers() ([]model.Customer, error) {
-	log.Logger.Infoln("Repository function invoked -> GetAllCostumers")
-	// creating a new costumer model
+// GetAllCustomers is a repository function to get all Customers in the DB
+func GetAllCustomers() ([]model.Customer, error) {
+	log.Logger.Infoln("Repository function invoked -> GetAllCustomers")
+	// creating a new Customer model
 	entries := []model.Customer{}
-	// goroutine for getting all costumers in DB
+	// goroutine for getting all Customers in DB
 	dbChanResponse := make(chan *gorm.DB)
 	go func() {
 		dbChanResponse <- DBContext.Find(&entries)
 	}()
-	// checking if there was an error getting all costumers in DB
+	// checking if there was an error getting all Customers in DB
 	if dbResult := <-dbChanResponse; dbResult.Error != nil {
 		return nil, dbResult.Error
 	}
-	log.Logger.Infoln("Repository function finished -> GetAllCostumers")
+	log.Logger.Infoln("Repository function finished -> GetAllCustomers")
 	return entries, nil
 }
-// GetCostumerByEmail is a repository function to get a costumer by email in the DB
-func GetCostumerByEmail(email string) (*model.Customer, error) {
-	log.Logger.Infoln("Repository function invoked -> GetCostumerByEmail")
-	// creating a new costumer model
+// GetCustomerByEmail is a repository function to get a Customer by email in the DB
+func GetCustomerByEmail(email string) (*model.Customer, error) {
+	log.Logger.Infoln("Repository function invoked -> GetCustomerByEmail")
+	// creating a new Customer model
 	entry := &model.Customer{}
-	// goroutine for getting costumer by email in DB
+	// goroutine for getting Customer by email in DB
 	dbChanResponse := make(chan *gorm.DB)
 	go func() {
 		dbChanResponse <- DBContext.Where("email = ?", email).First(&entry)
 	}()
-	// checking if there was an error getting costumer by email in DB
+	// checking if there was an error getting Customer by email in DB
 	if dbResult := <-dbChanResponse; dbResult.Error != nil {
 		return nil, dbResult.Error
 	}
-	log.Logger.Infoln("Repository function finished -> GetCostumerByEmail")
+	log.Logger.Infoln("Repository function finished -> GetCustomerByEmail")
 	return entry, nil
 }
