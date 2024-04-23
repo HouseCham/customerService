@@ -18,11 +18,13 @@ func (s *CustomerGrpcServer) InsertCustomer(ctx context.Context, request *Insert
 	// Convert gRPC request to model struct
 	requestBody := mapInsertCustomerRequestToModel(request)
 
-	// TODO: Add struct validation layer
-
 	// Call the handler to insert the new customer
 	handlerResponse := handler.InsertCustomerHandler(requestBody)
 
-	// Convert handler response to gRPC response
-	return mapHttpResponseToGrpc(handlerResponse, "InsertCustomerResponse").(*InsertCustomerResponse), nil
+	// Check if there was an error
+	response := handleResponseErrors(handlerResponse)
+
+	log.Logger.Println("InsertCustomer gRPC endpoint finished")
+
+	return response, nil
 }
