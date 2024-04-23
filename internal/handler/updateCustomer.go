@@ -19,6 +19,12 @@ func UpdateCustomerHandler(requestBody *model.Customer) model.HttpResponse {
 	go func() {
 		defer close(resultCh)
 
+		// Check if the customer exists
+		if _, err := repository.GetCustomerByID(requestBody.ID); err != nil {
+			resultCh <- handleErrorResponse("Customer does not exist", err, codes.NotFound, nil)
+			return
+		}
+
 		// Validate the request body
 		if err := validator.Validate.Struct(requestBody); err != nil {
 			resultCh <- handleErrorResponse("Error validating request body", err, codes.InvalidArgument, validator.GetValidatorErrorMessage(err))

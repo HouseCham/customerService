@@ -26,6 +26,13 @@ func InsertCustomerHandler(requestBody *model.Customer) model.HttpResponse {
             return
         }
 
+        // Check if the customer already exists
+        _, err := repository.GetCustomerByEmail(requestBody.Email)
+        if err == nil {
+            resultCh <- handleErrorResponse("Customer already exists", nil, codes.AlreadyExists, nil)
+            return
+        }
+
         // Hash the password
         hashedPassword, err := util.HashPassword(requestBody.Password)
         if err != nil {

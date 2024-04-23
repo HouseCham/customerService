@@ -18,8 +18,15 @@ func DeleteCustomerHandler(customerId uint) model.HttpResponse {
 	go func() {
 		defer close(resultCh)
 
+		// Check if the customer exists
+		_, err := repository.GetCustomerByID(customerId)
+		if err != nil {
+			resultCh <- handleErrorResponse("Customer not found", err, codes.NotFound, nil)
+			return
+		}
+
 		// Call the repository to delete the customer
-		err := repository.DeleteCustomerDB(
+		err = repository.DeleteCustomerDB(
 			&model.Customer{
 				ID: customerId,
 			},

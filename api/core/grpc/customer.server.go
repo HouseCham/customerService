@@ -5,7 +5,6 @@ import (
 
 	"github.com/HouseCham/customerService/internal/handler"
 	"github.com/HouseCham/customerService/internal/log"
-	"github.com/HouseCham/customerService/internal/model"
 )
 
 type CustomerGrpcServer struct {
@@ -70,19 +69,10 @@ func (s *CustomerGrpcServer) GetCustomer(ctx context.Context, request *GetCustom
 	// Call the handler to get the customer
 	handlerResponse := handler.GetCustomerByIdHandler(uint(request.Id))
 
+	// Check if there was an error
+	response := handleGetResponseErrors(handlerResponse)
+
 	log.Logger.Println("GetCustomer gRPC endpoint finished")
 
-	return &GetCustomerResponse{
-		HasError:     handlerResponse.HasError,
-		ErrorMessage: handlerResponse.ErrorMessage,
-		StatusCode:   handlerResponse.StatusCode,
-
-		Id: 		uint32(handlerResponse.Data.(*model.Customer).ID),
-		FirstName: 	handlerResponse.Data.(*model.Customer).FirstName,
-		SecondName: handlerResponse.Data.(*model.Customer).SecondName,
-		LastNameP: 	handlerResponse.Data.(*model.Customer).LastNameP,
-		LastNameM: 	handlerResponse.Data.(*model.Customer).LastNameM,
-		PhoneNumber: handlerResponse.Data.(*model.Customer).PhoneNumber,
-		Email: 		handlerResponse.Data.(*model.Customer).Email,
-	}, nil
+	return response, nil
 }

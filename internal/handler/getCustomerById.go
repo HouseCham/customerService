@@ -21,7 +21,7 @@ func GetCustomerByIdHandler(customerId uint) model.HttpResponse {
 		// Call the repository to get the customer
 		customer, err := repository.GetCustomerByID(customerId)
 		if err != nil {
-			resultCh <- handleErrorResponse("Error getting customer", err, codes.Internal, nil)
+			resultCh <- handleErrorResponse("Error getting customer", err, codes.NotFound, nil)
 			return
 		}
 
