@@ -94,15 +94,13 @@ func handleGetResponseErrors(handlerResponse model.HttpResponse) *GetCustomerRes
 	} else {
 		response.HasError = false
 		response.StatusCode = handlerResponse.StatusCode
-		response.Customer = &GetCustomerStruct{
-			Id:          uint32(handlerResponse.Data.(*model.Customer).ID),
-			FirstName:   handlerResponse.Data.(*model.Customer).FirstName,
-			SecondName:  handlerResponse.Data.(*model.Customer).SecondName,
-			LastNameP:   handlerResponse.Data.(*model.Customer).LastNameP,
-			LastNameM:   handlerResponse.Data.(*model.Customer).LastNameM,
-			PhoneNumber: handlerResponse.Data.(*model.Customer).PhoneNumber,
-			Email:       handlerResponse.Data.(*model.Customer).Email,
-		}
+		response.Id = uint32(handlerResponse.Data.(*model.Customer).ID)
+		response.FirstName = handlerResponse.Data.(*model.Customer).FirstName
+		response.SecondName = handlerResponse.Data.(*model.Customer).SecondName
+		response.LastNameP = handlerResponse.Data.(*model.Customer).LastNameP
+		response.LastNameM = handlerResponse.Data.(*model.Customer).LastNameM
+		response.PhoneNumber = handlerResponse.Data.(*model.Customer).PhoneNumber
+		response.Email = handlerResponse.Data.(*model.Customer).Email
 	}
 	return response
 }
