@@ -11,14 +11,13 @@ message ValidationError {
 /* ========== POST CUSTOMER ========== */
 // Request
 message InsertCustomerCommand {
-    uint32 id = 1;
-    string first_name = 2;
-    string second_name = 3;
-    string last_name_p = 4;
-    string last_name_m = 5;
-    string phone_number = 6;
-    string email = 7;
-    string password = 8;
+    string first_name = 1;
+    string second_name = 2;
+    string last_name_p = 3;
+    string last_name_m = 4;
+    string phone_number = 5;
+    string email = 6;
+    string password = 7;
 }
 // Response
 message InsertCustomerResponse {
@@ -38,14 +37,14 @@ message GetCustomerQuery {
 message GetCustomerResponse {
     bool has_error = 1;
     string error_message = 2;
-    uint32 id = 3;
-    string first_name = 4;
-    string second_name = 5;
-    string last_name_p = 6;
-    string last_name_m = 7;
-    string phone_number = 8;
-    string email = 9;
-    uint32 status_code = 10;
+    uint32 status_code = 3;
+    uint32 id = 4;
+    string first_name = 5;
+    string second_name = 6;
+    string last_name_p = 7;
+    string last_name_m = 8;
+    string phone_number = 9;
+    string email = 10;
 }
 
 /* ========== UPDATE COSTUMER ========== */

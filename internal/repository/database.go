@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/HouseCham/customerService/internal/config"
+	"github.com/HouseCham/customerService/internal/model"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
@@ -17,7 +18,7 @@ func SetUpDBConnection() error {
 		return fmt.Errorf("failed to connect database: %v", err)
 	}
 	// Migrate the schema
-	db.AutoMigrate(&Customer{})
+	db.AutoMigrate(&model.Customer{})
 	DBContext = db
 	return nil
 }
