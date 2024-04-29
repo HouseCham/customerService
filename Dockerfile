@@ -1,11 +1,33 @@
-FROM golang:1.21.6
+FROM golang:1.20-buster as build
 
 WORKDIR /app
 
-COPY go.mod .
-COPY cmd/main.go .
+RUN useradd -u 1001 nonroot
 
-RUN go get
-RUN go build -o bin
+COPY go.mod go.sum ./
 
-ENTRYPOINT [ "/app/bin" ]
+RUN --mount=type=cache,target=/go/pkg/mod \
+    --mount=type=cache,target=/root/.cache/go-build \
+    go mod download
+
+COPY . .
+
+RUN go build \
+    -ldflags "-linkmode external -extldflags -static" \
+    -tags netgo \
+    -o customer-service ./cmd
+
+###
+FROM scratch
+
+ENV APP_ENV=production
+
+COPY --from=build /etc/passwd /etc/passwd
+
+COPY --from=build /app/customer-service customer-service
+
+USER nonroot
+
+EXPOSE 3001
+
+CMD ["/customer-service"]
