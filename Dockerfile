@@ -26,6 +26,8 @@ COPY --from=build /etc/passwd /etc/passwd
 
 COPY --from=build /app/customer-service customer-service
 
+COPY config.json /config.json
+
 USER nonroot
 
 EXPOSE 3001

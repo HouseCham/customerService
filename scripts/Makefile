@@ -1,11 +1,21 @@
 generate_grpc_code_windows:
 	protoc --go_out=api/core/grpc --go_opt=paths=source_relative --go-grpc_out=api/core/grpc --go-grpc_opt=paths=source_relative --proto_path=C:\dev\freelance\customerService\api\ customerService.proto
 
-generate_grpc_code_linux:
-	protoc --go_out=api/core/grpc --go_opt=paths=source_relative --go-grpc_out=api/core/grpc --go-grpc_opt=paths=source_relative --proto_path=/mnt/c/dev/freelance/customerService/api/ customerService.proto
+create_docker_network:
+	sudo docker network create grpc_network
 
 first_build_docker_image:
-	docker build -t costumer_service:[version] .
+	docker build -t customer_service:[version] .
 
 run_docker_image:
-	docker run -e PORT=3001 -p 3001:3001 grpc-costumer-service:latest
+	sudo docker run -d \
+	--name customer-microservice \
+	-p 3001:3001 \
+	--restart unless-stopped \
+	customer_service:1
+
+# --network grpc_network \
+
+#access to the postgres server CLI
+showLogs:
+	sudo docker logs customer-microservice
