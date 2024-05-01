@@ -1,6 +1,6 @@
 {
   "database": {
-    "connectionString": "host=localhost user=postgres password=12345 dbname=db_test port=5432 sslmode=disable"
+    "connectionString": ""
   },
   "app": {
     "port": 3001,

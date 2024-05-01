@@ -16,6 +16,9 @@ run_docker_image:
 
 # --network grpc_network \
 
+test_service:
+	sudo docker run -p 3001:3001 -it --rm customer_service:1
+
 #access to the postgres server CLI
 showLogs:
 	sudo docker logs customer-microservice
