@@ -1,6 +1,6 @@
 module github.com/HouseCham/customerService
 
-go 1.21.6
+go 1.19
 
 require (
 	github.com/go-playground/validator/v10 v10.19.0
