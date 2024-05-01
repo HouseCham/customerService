@@ -1,45 +1,128 @@
-# Project Structure
+# CustomerService: Microservice Connected to Cerebro API Gateway
 
-This project follows a standard directory structure for organizing a Go gRPC microservice application:
+CustomerService is a microservice written in Golang, designed to be connected to the Cerebro API Gateway. It provides specific functionalities and services to the overall system.
 
-- **api/**: Contains Protobuf service definitions. This is where you define your gRPC service and messages.
+## Features
 
-- **cmd/**: Houses your main application(s). Each subdirectory represents an individual application (e.g., server, client). The `main.go` files here initialize and run your application.
+- Specific functionalities for customer-related operations
+- Integration with Cerebro API Gateway via gRPC connections
+- Scalable architecture for handling customer-related requests
 
-- **internal/**: Contains internal packages that are specific to your application. This prevents them from being imported by other applications.
+## Structure
+```
+customerService/
+    ├── api/
+    │    └── core/
+    │         └── grpc/
+    ├── cmd/
+    │    └── main.go
+    ├── internal/
+    │    ├── config/
+    │    ├── handler/
+    │    ├── model/
+    │    ├── repository/
+    │    ├── validator/
+    │    └── log/
+    ├── pkg/
+    │    └── utils/
+    ├── scripts/
+    ├── .dockerignore
+    ├── config.json
+    ├── go.mod
+    ├── go.sum
+    ├── README.md
+    └── Dockerfile
+```
 
-  - **config/**: Handles configuration loading and parsing.
-  - **handler/**: Implements gRPC handlers. Converts gRPC requests to service method calls.
-  - **model/**: Defines data models used throughout the application.
-  - **repository/**: Contains the data access layer, handling interactions with databases or external services.
-  - **service/**: Houses the business logic layer, implementing the core functionalities of your service.
 
-- **pkg/**: Contains reusable packages that can be shared across different services or projects. These packages should not have any dependency on the internal packages.
+- `api/`: Contains API-related code.
+    - `core/`: Core functionality of the API.
+        - `grpc/`: gRPC related code.
 
-  - **middleware/**: Custom middleware for handling cross-cutting concerns such as logging, authentication, etc.
-  - **utils/**: Utility functions used across the application.
+- `cmd/`: Main application entry point.
+    - `main.go`: Main entry point for the application.
 
-- **scripts/**: Contains scripts for deployment, continuous integration, and other tasks related to development and operations.
+- `internal/`: Internal package containing application-specific code.
+    - `config/`: Configuration related code.
+    - `handler/`: Request handler functions.
+    - `model/`: Data models used by the application.
+    - `repository/`: Data access layer for interacting with databases.
+    - `validator/`: Validation logic for incoming requests.
+    - `log/`: Logging functionality.
 
-- **Dockerfile**: Configures the Docker image for your service.
+- `pkg/`: Package directory containing reusable code.
+    - `utils/`: Utility functions and libraries.
 
-- **go.mod** and **go.sum**: Define and manage Go modules and their dependencies.
+- `scripts/`: Directory containing scripts for building, testing, and running the application.
+
+- `.dockerignore`: File specifying paths to exclude when building Docker images.
+
+- `config.json`: Configuration file for the application.
+
+- `go.mod`, `go.sum`: Go module files specifying dependencies for the project.
+
+- `README.md`: Markdown file containing project information and instructions.
+
+- `Dockerfile`: File used to build a Docker image for the project.
 
 ## Usage
 
-To use this project structure, follow these steps:
+The project can be built and run using Docker containers. Follow the instructions provided in the README.md file to build and run the application.
 
-1. Clone this repository.
-2. Modify the Protobuf service definitions in the `api/` directory according to your service requirements.
-3. Implement your service logic in the `internal/` directory, separating concerns as necessary.
-4. Develop your main application(s) in the `cmd/` directory, utilizing the internal packages for functionality.
-5. Utilize the `pkg/` directory for reusable packages that can be shared across different services or projects.
-6. Use the `scripts/` directory for deployment, continuous integration, and other development-related tasks.
-7. Customize the `Dockerfile` to build a Docker image for your service.
-8. Manage dependencies using `go mod` commands.
+Feel free to reach out if you have any questions or need further assistance!
 
-For detailed instructions on each component and how to customize them, refer to the comments within each directory and file.
 
-## License
+## Frameworks & Libraries
 
-This project is licensed under the [MIT License](LICENSE).
+The project relies on the following frameworks and libraries:
+
+- [Validator v10](https://github.com/go-playground/validator/v10) v10.19.0
+- [Logrus](https://github.com/sirupsen/logrus) v1.9.3
+- [Viper](https://github.com/spf13/viper) v1.18.2
+- [Crypto](https://golang.org/x/crypto) v0.22.0
+- [gRPC](https://google.golang.org/grpc) v1.59.0
+- [Protocol Buffers](https://github.com/protocolbuffers/protobuf) v1.33.0
+- [GORM Postgres Driver](https://gorm.io/docs/postgres.html) v1.5.7
+
+
+## Usage
+
+### Building Docker Images
+
+To build the Docker images for CustomerService, follow these steps:
+
+1. Clone the CustomerService repository:
+
+```bash
+  git clone https://github.com/HouseCham/customerService.git
+```
+
+2. Navigate to the project directory:
+```bash
+cd customerService
+```
+
+3. Build the docker image using the provided Dockerfile:
+```bash
+docker build -t customer-service:[version] .
+```
+
+### Running Docker Containers
+
+Once you have built the Docker image, you can run containers for CustomerService using the following commands:
+
+```bash
+sudo docker run -d \
+--name customer-service \
+-p [host_port]:[container_port] \
+-it \
+--restart unless-stopped \
+customer-service:[version]
+```
+
+Replace [host_port] and [container_port] with the desired port mapping. Remember to adjust the configuration within the config.json file accordingly.
+
+### Interacting with the Running Container
+
+If you choose to run the container interactively (-it tag), you can interact with the container's CLI. Upon successful startup, you'll see log messages indicating the server is running.
+
