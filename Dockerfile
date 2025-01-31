@@ -1,35 +1,23 @@
-FROM golang:1.20-buster as build
-
+FROM golang:1.19-alpine as build
 WORKDIR /app
-
-RUN useradd -u 1001 nonroot
-
 COPY go.mod go.sum ./
-
-RUN --mount=type=cache,target=/go/pkg/mod \
-    --mount=type=cache,target=/root/.cache/go-build \
-    go mod download
-
+RUN go mod download && \
+    go mod verify && \
+    go mod tidy
 COPY . .
+RUN go build -o main ./cmd/main.go
 
-RUN go build \
-    -ldflags "-linkmode external -extldflags -static" \
-    -tags netgo \
-    -o customer-service ./cmd
+# Final stage: create a smaller image with only the built binary
+FROM --platform=$BUILDPLATFORM alpine:3.20 AS final
 
-###
-FROM scratch
+# Set working directory
+WORKDIR /root/
 
-ENV APP_ENV=production
+# Copy the configuration file
+COPY ./config.json .
 
-COPY --from=build /etc/passwd /etc/passwd
+# Copy the compiled binary from the build stage
+COPY --from=build /app/main .
 
-COPY --from=build /app/customer-service customer-service
-
-COPY config.json /config.json
-
-USER nonroot
-
-EXPOSE 3001
-
-CMD ["/customer-service"]
+# Set the default command to run the application
+CMD ["./main"]
