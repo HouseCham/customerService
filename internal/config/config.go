@@ -1,30 +1,39 @@
 package config
 
 import (
-	"fmt"
+	"os"
+	"strconv"
 
 	"github.com/HouseCham/customerService/internal/model"
-	"github.com/spf13/viper"
 )
 
 var ConfigFile model.Config
 
 // getConfigFile reads the config.json file and returns a Config struct
 func GetConfigFile() error {
-	v := viper.New()
-	v.SetConfigFile("./../config.json")
-
-	// Read the config file
-	err := v.ReadInConfig()
+	// Read the environment variables
+	appPort, err := strconv.ParseUint(os.Getenv("APP_PORT"), 10, 16)
 	if err != nil {
-		return fmt.Errorf("failed to read config file: %w", err)
+		return err 
+	}
+	dbPort, err := strconv.ParseUint(os.Getenv("DB_PORT"), 10, 16)
+	if err != nil {
+		return err
 	}
 
 	// Unmarshal the config file into a struct
-	var configFile model.Config
-	err = v.Unmarshal(&configFile)
-	if err != nil {
-		return fmt.Errorf("failed to unmarshal config file: %w", err)
+	var configFile model.Config = model.Config{
+		App: model.Application{
+			Host: os.Getenv("APP_HOST"),
+			Port: uint16(appPort),
+		},
+		DB: model.Database{
+			Host:     os.Getenv("DB_HOST"),
+			Port:     uint16(dbPort),
+			User:     os.Getenv("DB_USER"),
+			Password: os.Getenv("DB_PASSWORD"),
+			DbName:   os.Getenv("DB_NAME"),
+		},
 	}
 
 	ConfigFile = configFile
