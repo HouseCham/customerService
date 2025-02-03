@@ -13,9 +13,6 @@ FROM --platform=$BUILDPLATFORM alpine:3.20 AS final
 # Set working directory
 WORKDIR /root/
 
-# Copy the configuration file
-COPY ./config.json .
-
 # Copy the compiled binary from the build stage
 COPY --from=build /app/main .
 

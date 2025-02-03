@@ -13,7 +13,7 @@ var DBContext *gorm.DB
 
 // SetDBConnection is a function to set the database connection with the given connection string
 func SetUpDBConnection() error {
-	connString := fmt.Sprintf("postgresql://%s:%s@%s:%d/%s", 
+	connString := fmt.Sprintf("postgresql://%s:%s@%s:%d/%s?sslmode=disable",
 		config.ConfigFile.DB.User, 
 		config.ConfigFile.DB.Password, 
 		config.ConfigFile.DB.Host, 

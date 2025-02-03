@@ -2,3 +2,4 @@ scripts/
 README.md
 Dockerfile*
 .gitignore
+.env
